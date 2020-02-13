@@ -64,7 +64,7 @@ const updatePlayer = (player, inputs) => {
   }
 }
 
-const checkBallBorderCollisions = ball => {
+const checkBallBorderCollision = ball => {
   const x = 0
   const y = 0
   const speed = { ...ball.speed }
@@ -88,4 +88,37 @@ const checkBallBorderCollisions = ball => {
   return { x, y, speed }
 }
 
-const checkPlayerBorderCollisions = player => {}
+const checkPlayerBorderCollision = player => {
+  return player.type == "horizontal"
+    ? checkHPlayerBorderCollisions(player)
+    : checkVPlayerBorderCollisions(player)
+}
+
+const checkBallPlayerCollision = (ball, player) => {
+  if (distance(ball, player) < ball.radius + player.radius) {
+  }
+}
+
+const checkHPlayerBorderCollision = player => {
+  const x = player.x
+
+  if (player.x - player.radius < 0) {
+    x = player.radius
+  } else if (player.x + player.radius > size) {
+    x = size - player.radius
+  }
+
+  return { ...player, x }
+}
+
+const checkVPlayerBorderCollision = player => {
+  const y = player.y
+
+  if (player.y - player.radius < 0) {
+    y = player.radius
+  } else if (player.y + player.radius > size) {
+    y = size - player.radius
+  }
+
+  return { ...player, y }
+}
