@@ -45,8 +45,8 @@ const updateWorld = (state, inputs) => {
 
 const checkCollisions = state => {
   return {
-    ball: checkBallCollisions(state.ball),
-    players: state.players.map(checkPlayerCollisions)
+    ball: checkBallBorderCollisions(state.ball),
+    players: state.players.map(checkPlayerBorderCollisions)
   }
 }
 
@@ -64,24 +64,23 @@ const updatePlayer = (player, inputs) => {
   }
 }
 
-const checkBallCollisions = (ball) => {
-  const x, y;
+const checkBallBorderCollisions = ball => {
+  const x = 0
+  const y = 0
   const speed = { ...ball.speed }
 
-  if(ball.x <= 0) {
+  if (ball.x <= 0) {
     speed.x = 1
     x = 0
-  }
-  else if(ball.x >= size) {
+  } else if (ball.x >= size) {
     speed.x = -1
     x = size
   }
 
-  if(ball.y <= 0) {
+  if (ball.y <= 0) {
     speed.y = 1
     y = 0
-  }
-  else if(ball.y >= size) {
+  } else if (ball.y >= size) {
     speed.y = -1
     y = size
   }
@@ -89,3 +88,4 @@ const checkBallCollisions = (ball) => {
   return { x, y, speed }
 }
 
+const checkPlayerBorderCollisions = player => {}
