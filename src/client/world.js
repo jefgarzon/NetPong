@@ -1,4 +1,31 @@
-const size = 700
+export const size = 700
+
+export const initialWorld = () => {
+  return {
+    ball: {
+      x: size / 2,
+      y: size / 2 + 10,
+      radius: 50,
+      speed: { x: 3, y: 0 }
+    },
+    players: [
+      {
+        x: 0,
+        y: size / 2 - 10,
+        radius: 50,
+        speed: { x: 0, y: 0 },
+        type: "vertical"
+      },
+      {
+        x: size,
+        y: size / 2,
+        radius: 50,
+        speed: { x: 0, y: 0 },
+        type: "vertical"
+      }
+    ]
+  }
+}
 
 export const updateWorld = (state, inputs) => {
   const ball = updateBall(state.ball)
@@ -17,8 +44,8 @@ export const updateWorld = (state, inputs) => {
 const checkCollisions = state => {
   return {
     ...state,
-    ball: checkBallCollision(state.ball, state.players)
-    // players: state.players.map(checkPlayerBorderCollision)
+    ball: checkBallCollision(state.ball, state.players),
+    players: state.players.map(checkPlayerBorderCollision)
   }
 }
 
@@ -31,10 +58,30 @@ const updateBall = ball => {
 }
 
 const updatePlayer = (player, inputs) => {
+  return updatePlayerPos(updatePlayerSpeed(player, inputs))
+}
+
+const updatePlayerPos = player => {
   return {
     ...player,
     x: player.x + player.speed.x,
     y: player.y + player.speed.y
+  }
+}
+
+const updatePlayerSpeed = (player, inputs) => {
+  const dir = (inputs.forward && 1) || (inputs.backward && -1) || 0
+  let speed
+
+  if (player.type == "vertical") {
+    speed = { x: 0, y: 3 * dir }
+  } else {
+    speed = { x: 3 * dir, y: 0 }
+  }
+
+  return {
+    ...player,
+    speed
   }
 }
 
@@ -117,7 +164,7 @@ const separateBallPlayer = (ball, player, normal, distance) => {
 }
 
 const checkHPlayerBorderCollision = player => {
-  const x = player.x
+  let x = player.x
 
   if (player.x - player.radius < 0) {
     x = player.radius
@@ -129,7 +176,7 @@ const checkHPlayerBorderCollision = player => {
 }
 
 const checkVPlayerBorderCollision = player => {
-  const y = player.y
+  let y = player.y
 
   if (player.y - player.radius < 0) {
     y = player.radius
