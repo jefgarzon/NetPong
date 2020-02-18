@@ -1,3 +1,5 @@
+import "./net"
+
 import { initialWorld, updateWorld, size } from "./world"
 import { drawWorld } from "./draw"
 import { setupInput, playerInputs } from "./input"
