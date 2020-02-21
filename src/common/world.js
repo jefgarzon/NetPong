@@ -10,6 +10,7 @@ export const initialWorld = () => {
     },
     players: [
       {
+        id: 0,
         x: 0,
         y: size / 2 - 10,
         radius: 50,
@@ -17,6 +18,7 @@ export const initialWorld = () => {
         type: "vertical"
       },
       {
+        id: 1,
         x: size,
         y: size / 2,
         radius: 50,
@@ -30,8 +32,8 @@ export const initialWorld = () => {
 export const updateWorld = (state, inputs) => {
   const ball = updateBall(state.ball)
   const players = state.players.map((p, index) => {
-    const playerInputs = inputs[index] || []
-    return updatePlayer(p, playerInputs)
+    const playerInput = inputs[p.id] || {}
+    return updatePlayer(p, playerInput)
   })
 
   return checkCollisions({
@@ -57,8 +59,8 @@ const updateBall = ball => {
   }
 }
 
-const updatePlayer = (player, inputs) => {
-  return updatePlayerPos(updatePlayerSpeed(player, inputs))
+const updatePlayer = (player, input) => {
+  return updatePlayerPos(updatePlayerSpeed(player, input))
 }
 
 const updatePlayerPos = player => {
@@ -69,8 +71,8 @@ const updatePlayerPos = player => {
   }
 }
 
-const updatePlayerSpeed = (player, inputs) => {
-  const dir = (inputs.forward && 1) || (inputs.backward && -1) || 0
+const updatePlayerSpeed = (player, input) => {
+  const dir = (input.forward && 1) || (input.backward && -1) || 0
   let speed
 
   if (player.type == "vertical") {
