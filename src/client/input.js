@@ -12,18 +12,10 @@ export const setupInput = () => {
   document.addEventListener("keyup", onKeyUp)
 }
 
-export const playerInputs = () => {
-  return [
-    {
-      forward: keyMap[key.S],
-      backward: keyMap[key.W]
-    },
-    {
-      forward: keyMap[key.DOWN],
-      backward: keyMap[key.UP]
-    }
-  ]
-}
+export const playerInputs = () => ({
+  forward: keyMap[key.DOWN],
+  backward: keyMap[key.UP]
+})
 
 const onKeyDown = evt => {
   keyMap[evt.keyCode] = true

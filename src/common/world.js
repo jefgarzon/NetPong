@@ -2,6 +2,7 @@ export const size = 700
 
 export const initialWorld = () => {
   return {
+    time: 0,
     ball: {
       x: size / 2,
       y: size / 2 + 10,
@@ -10,7 +11,7 @@ export const initialWorld = () => {
     },
     players: [
       {
-        id: 0,
+        id: "0",
         x: 0,
         y: size / 2 - 10,
         radius: 50,
@@ -18,7 +19,7 @@ export const initialWorld = () => {
         type: "vertical"
       },
       {
-        id: 1,
+        id: "1",
         x: size,
         y: size / 2,
         radius: 50,

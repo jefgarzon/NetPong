@@ -41,10 +41,3 @@ const availableMatchPlayerId = match => {
 }
 
 export const updateMatch = match => (matches[match.uuid] = match) // TODO: not that functional programming
-
-export const updateMatchWorld = (match, inputs) => {
-  return {
-    ...match,
-    world: updateWorld(match.world, inputs)
-  }
-}

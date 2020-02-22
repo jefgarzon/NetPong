@@ -1,23 +1,29 @@
+import { onInput } from "./net"
+
 const inputs = {}
 
 const pushInput = (inputs, input) => [...inputs, input]
 const popInput = userInputs => {
   const [input, ...rest] = userInputs
-  return { input, inputs: rest }
+  return { input, rest }
 }
 
 const updateInputs = (userId, userInputs) => (inputs[userId] = userInputs) // TODO: not that functional
 
 export const nextUsersInput = users => {
-  return Object.keys(users).reduce((inputs, userId) => {
+  return Object.keys(users).reduce((acc, userId) => {
     const playerId = users[userId].playerId
-    return { ...inputs, [playerId]: nextUserInput(userId) }
+    return { ...acc, [playerId]: nextUserInput(userId) }
   }, {})
 }
 
 const nextUserInput = userId => {
   const userInputs = inputs[userId]
-  return popInput(userInputs)
+  const { input, rest } = popInput(userInputs)
+
+  updateInputs(userId, rest)
+
+  return input
 }
 
 export const listenInputs = user => {
@@ -25,7 +31,8 @@ export const listenInputs = user => {
 
   updateInputs(userId, [])
 
-  user.conn.on("input", input => {
+  onInput(user, input => {
+    //console.log("userId", input)
     updateInputs(userId, pushInput(inputs[userId], input))
   })
 }
